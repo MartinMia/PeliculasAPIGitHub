@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PeliculasAPI.Entidades;
 using PeliculasAPI.Filtros;
@@ -21,25 +22,22 @@ namespace PeliculasAPI.Controllers
         //private readonly IRepositorio repositorio;
         //private readonly WeatherForecastController weatherForecastController;
         private readonly ILogger<GenerosController> logger;
+        private readonly ApplicationDbContext context;
 
-        public GenerosController(ILogger<GenerosController> logger)
+        public GenerosController(ILogger<GenerosController> logger,
+            ApplicationDbContext context)
         {
             //this.repositorio = repositorio;
             //this.weatherForecastController = weatherForecastController;
             this.logger = logger;
+            this.context = context;
         }
 
-        [HttpGet] //apo/generos
-        //[HttpGet("listado")]
-        //[HttpGet("/listadogeneros")]
-        //[ResponseCache(Duration = 60)]
-        //[ServiceFilter(typeof(MiFiltroDeAccion))]
-        public ActionResult<List<Genero>> Get()
+        [HttpGet] //api/generos
+        public async Task<ActionResult<List<Genero>>> Get()
         {
-            //logger.LogInformation("Vamos a mostrar todos los géneros");
-            //return repositorio.GetAll();
-            return new List<Genero>() { new Genero() };   
-        }
+
+            return await context.Generos.ToListAsync();        }
 
         //[HttpGet("guid")]
         //public ActionResult<Guid> GetGuid()
@@ -74,16 +72,16 @@ namespace PeliculasAPI.Controllers
         [HttpPost]
         public ActionResult Post([FromBody] Genero genero)
         {
-            //repositorio.CrearGenero(genero);
-            //return NoContent();
+            
             throw new NotImplementedException();
         }
 
         [HttpPut]
-        public ActionResult Put([FromBody] Genero genero)
+        public async Task <ActionResult> Put([FromBody] Genero genero)
         {
-            //return NoContent();
-            throw new NotImplementedException();
+            context.Add(genero);
+            await context.SaveChangesAsync();
+            return NoContent();
         }
 
         [HttpDelete]

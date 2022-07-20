@@ -14,8 +14,8 @@ namespace PeliculasAPI.Repositorios
         {
             _generos = new List<Genero>()
             {
-                new Genero(){Id=1, Nombre="Comedia"},
-                new Genero(){Id=2, Nombre="Accion"}
+                new Genero(){Id=1, Nom="Comedia"},
+                new Genero(){Id=2, Nom="Accion"}
             };
 
             _guid = Guid.NewGuid();

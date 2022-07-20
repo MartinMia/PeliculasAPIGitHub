@@ -14,27 +14,18 @@ namespace PeliculasAPI.Entidades
         [Required(ErrorMessage = "El campo {0} es requerido")]
         [StringLength(maximumLength: 10)]
         [PrimeraLetraMayuscula]
-        public string Nombre { get; set; }
+        public string Nom { get; set; }
 
-        [Range(18, 120)]
-        public int Edad { get; set; }
-
-        [CreditCard]
-        public string TarjetaDeCredito { get; set; }
-
-        [Url]
-        public string URL { get; set; }
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+          public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (!string.IsNullOrEmpty(Nombre))
+            if (!string.IsNullOrEmpty(Nom))
             {
-                var primeraLetra = Nombre[0].ToString();
+                var primeraLetra = Nom[0].ToString();
 
                 if (primeraLetra != primeraLetra.ToUpper())
                 {
                     yield return new ValidationResult("La primera letra debe ser mayúscula",
-                        new string[] { nameof(Nombre) });
+                        new string[] { nameof(Nom) });
                 }
             }
         }

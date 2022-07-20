@@ -48,8 +48,9 @@ namespace PeliculasAPI
             {
                 options.Filters.Add(typeof(FiltroDeExcepciones));
                 options.Filters.Add(typeof(ParsearBadRequest));
-            }).ConfigureApiBehaviorOptions(BehaviorBadRequest.Parsear); 
+            }).ConfigureApiBehaviorOptions(BehaviorBadRequest.Parsear);
 
+            services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<ApplicationDbContext>(options =>
            options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
 

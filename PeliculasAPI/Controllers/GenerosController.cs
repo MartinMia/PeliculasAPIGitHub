@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PeliculasAPI.DTOS;
+using AutoMapper;
 
 namespace PeliculasAPI.Controllers
 {
@@ -21,27 +23,33 @@ namespace PeliculasAPI.Controllers
     {
         private readonly IRepositorio repositorio;
         private readonly WeatherForecastController weatherForecastController;
+        private readonly ApplicationDbContext context;
+        private readonly IMapper mapper;
         private readonly ILogger<GenerosController> logger;
 
         public GenerosController(IRepositorio repositorio,
             WeatherForecastController weatherForecastController,
-            ILogger<GenerosController> logger)
+            ILogger<GenerosController> logger,
+            ApplicationDbContext context,
+            IMapper mapper)
         {
             this.repositorio = repositorio;
             this.weatherForecastController = weatherForecastController;
             this.logger = logger;
+            this.context = context;
+            this.mapper = mapper;
         }
 
-        [HttpGet] // api/generos
-        [HttpGet("listado")] // api/generos/listado
-        [HttpGet("/listadogeneros")] // /listadogeneros
-        //[ResponseCache(Duration = 60)]
-        [ServiceFilter(typeof(MiFiltroDeAccion))]
-        public ActionResult<List<Genero>> Get()
-        {
-            logger.LogInformation("Vamos a mostrar los géneros");
-            return repositorio.GetAll();
-        }
+        //[HttpGet] // api/generos
+        //[HttpGet("listado")] // api/generos/listado
+        //[HttpGet("/listadogeneros")] // /listadogeneros
+        ////[ResponseCache(Duration = 60)]
+        //[ServiceFilter(typeof(MiFiltroDeAccion))]
+        //public ActionResult<List<Genero>> Get()
+        //{
+        //    logger.LogInformation("Vamos a mostrar los géneros");
+        //    return repositorio.GetAll();
+        //}
 
         [HttpGet("guid")] // api/generos/guid
         public ActionResult<Guid> GetGUID()
@@ -49,8 +57,15 @@ namespace PeliculasAPI.Controllers
             return Ok(new
             {
                 GUID_GenerosController = repositorio.ObtenerGuid()
-                //GUID_WeatherForecastController = weatherForecastController.ObtenerGUIDWeatherForecastController();
+                //GUID_WeatherForecastController = weatherForecastController.ObtenerGUIDWeatherForecastController()
             });
+        }
+
+        [HttpGet] //api/generos
+        public async Task<ActionResult<List<GeneroDTO>>> Get()
+        {
+            var generos = await context.Generos.ToListAsync();
+            return mapper.Map<List<GeneroDTO>>(generos);
         }
 
 
@@ -83,8 +98,11 @@ namespace PeliculasAPI.Controllers
         }
 
         [HttpPut]
-        public ActionResult Put([FromBody] Genero genero)
+        public async Task <ActionResult> Put([FromBody] GeneroCreacionDTO generoCreacionDTO)
         {
+            var genero = mapper.Map<Genero>(generoCreacionDTO);
+            context.Add(genero);
+            await context.SaveChangesAsync();
             return NoContent();
         }
 

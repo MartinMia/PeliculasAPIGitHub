@@ -14,8 +14,8 @@ namespace PeliculasAPI.Repositorios
         {
             _generos = new List<Genero>()
             {
-                new Genero(){id=1, Nom="Comedia"},
-                new Genero(){id=2, Nom="Accion"}
+                new Genero(){Id=1, Nombre="Comedia"},
+                new Genero(){Id=2, Nombre="Accion"}
             };
 
             _guid = Guid.NewGuid();
@@ -32,7 +32,7 @@ namespace PeliculasAPI.Repositorios
         {
             await Task.Delay(TimeSpan.FromSeconds(3));
 
-            return _generos.FirstOrDefault(x => x.id == Id);
+            return _generos.FirstOrDefault(x => x.Id == Id);
         }
 
         public Guid ObtenerGuid()
@@ -42,7 +42,7 @@ namespace PeliculasAPI.Repositorios
 
         public void CrearGenero(Genero genero)
         {
-            genero.id = _generos.Count() + 1;
+            genero.Id = _generos.Count() + 1;
             _generos.Add(genero);
         }
     }

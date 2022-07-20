@@ -50,7 +50,7 @@ namespace PeliculasAPI
                 options.Filters.Add(typeof(ParsearBadRequest));
             }).ConfigureApiBehaviorOptions(BehaviorBadRequest.Parsear);
 
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(Startup));    
             services.AddDbContext<ApplicationDbContext>(options =>
            options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
 

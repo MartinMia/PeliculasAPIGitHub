@@ -73,40 +73,44 @@ namespace PeliculasAPI.Controllers
 
 
         [HttpGet("{Id:int}")] // api/generos/3/felipe
-        public async Task<ActionResult<Genero>> Get(int Id, [FromHeader] string nombre)
+        public async Task<ActionResult<GeneroDTO>> Get(int Id)
         {
+            var genero = await context.Generos.FirstOrDefaultAsync(x => x.Id == Id);
 
-            logger.LogDebug($"Obteniendo un género por el id {Id}");
-
-            var genero = await repositorio.GetId(Id);
-
-            if (genero == null)
+            if(genero == null)
             {
-                throw new ApplicationException($"El género de ID {Id} no fue encontrado");
-                logger.LogWarning($"No pudimos encontrar el género de id {Id}");
                 return NotFound();
             }
 
-            //return "felipe";
-            //return Ok("felipe");
-            //return Ok(DateTime.Now);
-            return genero;
+            return mapper.Map<GeneroDTO>(genero);
+
         }
+
 
         [HttpPost]
-        public ActionResult Post([FromBody] Genero genero)
-        {
-            repositorio.CrearGenero(genero);
-            return NoContent();
-        }
-
-        [HttpPut]
-        public async Task <ActionResult> Put([FromBody] GeneroCreacionDTO generoCreacionDTO)
+        public async Task <ActionResult> Post([FromBody] GeneroCreacionDTO generoCreacionDTO)
         {
             var genero = mapper.Map<Genero>(generoCreacionDTO);
             context.Add(genero);
             await context.SaveChangesAsync();
             return NoContent();
+        }
+
+        [HttpPut("{id:int}")]   
+        public async Task <ActionResult> Put(int Id, [FromBody] GeneroCreacionDTO generoCreacionDTO)
+        {
+            var genero = await context.Generos.FirstOrDefaultAsync(x => x.Id == Id);
+
+            if (genero == null)
+            {
+                return NotFound();
+            }
+
+            genero = mapper.Map(generoCreacionDTO, genero);
+            await context.SaveChangesAsync();
+
+            return NoContent();
+
         }
 
         [HttpDelete]

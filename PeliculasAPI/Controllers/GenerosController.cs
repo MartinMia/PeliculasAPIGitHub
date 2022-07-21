@@ -60,7 +60,7 @@ namespace PeliculasAPI.Controllers
             });
         }
 
-        [HttpGet("{Id:int}")] // api/generos/3/felipe
+        [HttpGet("{Id:int}")] 
         public async Task<ActionResult<GeneroDTO>> Get(int Id)
         {
             var genero = await context.Generos.FirstOrDefaultAsync(x => x.Id == Id);

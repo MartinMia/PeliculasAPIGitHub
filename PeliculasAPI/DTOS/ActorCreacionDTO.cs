@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace PeliculasAPI.DTOS
 {
     public class ActorCreacionDTO
     {
-        public int Id { get; set; }
+        
         [Required]
         [StringLength(maximumLength: 200)]
         public string Nombre { get; set; }
@@ -17,6 +18,6 @@ namespace PeliculasAPI.DTOS
 
         public DateTime FechaNac { get; set; }
 
-        
+        public IFormFile Foto { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PeliculasAPI.Utilidades
 {
-    public class TypeBinder : IModelBinder 
+    public class TypeBinder<T> : IModelBinder 
     {
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
@@ -16,14 +17,22 @@ namespace PeliculasAPI.Utilidades
 
             if (valor == ValueProviderResult.None)
             {
-                
+                return Task.CompletedTask;
             }
 
-            //try
-            //{
-            //    var ValorDescerializado = JsonConvert;
-            //}
+            try
+            {
+                var ValorDescerializado = JsonConvert.DeserializeObject<T>(valor.FirstValue);
+                bindingContext.Result = ModelBindingResult.Success(ValorDescerializado);
+            }
+
+            catch
+            {
+                bindingContext.ModelState.TryAddModelError(nombrePropiedad, "El valor dado no es del tipo adecuado");
+            }
+
             return Task.CompletedTask;
+
         }
     }
 }

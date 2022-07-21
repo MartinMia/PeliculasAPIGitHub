@@ -1,6 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using PeliculasAPI.DTOS;
+using PeliculasAPI.Entidades;
 using PeliculasAPI.Utilidades;
+using System.Threading.Tasks;
+
 namespace PeliculasAPI.Controllers
 {
     [ApiController]
@@ -11,6 +15,7 @@ namespace PeliculasAPI.Controllers
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
         private readonly IAlmacenadorArchivos almacenadorArchivos;
+        private readonly string contenedor = "peliculas";
 
         public PeliculasController(ApplicationDbContext context,
             IMapper mapper,
@@ -22,5 +27,33 @@ namespace PeliculasAPI.Controllers
         }
 
         //Gracias Juanma!!!
+
+        [HttpPost]
+        public async Task<ActionResult> Post([FromForm] PeliculaCreacionDTO peliculaCreacionDTO)
+        {
+            var pelicula = mapper.Map<Pelicula>(peliculaCreacionDTO);
+
+            if (peliculaCreacionDTO.Poster != null)
+            {
+                pelicula.Poster = await almacenadorArchivos.EditarArchivo(contenedor, peliculaCreacionDTO.Poster, pelicula.Poster);
+            }
+
+            EscribirOrdenActores(pelicula);
+
+            context.Add(pelicula);
+            await context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        private void EscribirOrdenActores(Pelicula peliculas)
+        {
+            if (peliculas.PeliculasActores != null)
+            {
+                for (int i = 0; i < peliculas.PeliculasActores.Count; i++)
+                {
+                    peliculas.PeliculasActores[i].Orden = i;
+                }
+            }
+        }
     }
 }

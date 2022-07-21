@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using PeliculasAPI.Utilidades;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,5 +20,11 @@ namespace PeliculasAPI.DTOS
 
         public DateTime Fecha { get; set; }
         public IFormFile Poster { get; set; }
+        [ModelBinder(BinderType = typeof(TypeBinder<List<int>>))]
+        public List<int> GenerosIds { get; set; }
+        [ModelBinder(BinderType = typeof(TypeBinder<List<int>>))]
+        public List<int> CinesIds { get; set; }
+        [ModelBinder(BinderType = typeof(TypeBinder<List<ActorPeliculaCreacionDTO>>))]
+        public List<ActorPeliculaCreacionDTO> Actores { get; set; }
     }
 }

@@ -44,6 +44,8 @@ namespace PeliculasAPI
             services.AddScoped<IRepositorio, RepositorioEnMemoria>();
             services.AddScoped<WeatherForecastController>();
             services.AddTransient<MiFiltroDeAccion>();
+            services.AddTransient<IAlmacenadorArchivos, AlmacenadorArchivosLocal>();
+            services.AddHttpContextAccessor();
             services.AddControllers(options =>
             {
                 options.Filters.Add(typeof(FiltroDeExcepciones));
@@ -115,6 +117,8 @@ namespace PeliculasAPI
             }
 
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
 
             app.UseRouting();
 

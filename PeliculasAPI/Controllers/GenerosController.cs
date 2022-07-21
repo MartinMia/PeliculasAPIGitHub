@@ -41,16 +41,14 @@ namespace PeliculasAPI.Controllers
             this.mapper = mapper;
         }
 
-        //[HttpGet] // api/generos
-        //[HttpGet("listado")] // api/generos/listado
-        //[HttpGet("/listadogeneros")] // /listadogeneros
-        ////[ResponseCache(Duration = 60)]
-        //[ServiceFilter(typeof(MiFiltroDeAccion))]
-        //public ActionResult<List<Genero>> Get()
-        //{
-        //    logger.LogInformation("Vamos a mostrar los géneros");
-        //    return repositorio.GetAll();
-        //}
+        [HttpGet] //api/generos
+        public async Task<ActionResult<List<GeneroDTO>>> Get([FromQuery] PaginacionDTO paginacionDTO)
+        {
+            var queryable = context.Generos.AsQueryable();
+            await HttpContext.InsertarParametrosPaginacionEnCabecera(queryable);
+            var generos = await queryable.OrderBy(x => x.Nom).Paginar(paginacionDTO).ToListAsync();
+            return mapper.Map<List<GeneroDTO>>(generos);
+        }
 
         [HttpGet("guid")] // api/generos/guid
         public ActionResult<Guid> GetGUID()
@@ -61,16 +59,6 @@ namespace PeliculasAPI.Controllers
                 //GUID_WeatherForecastController = weatherForecastController.ObtenerGUIDWeatherForecastController()
             });
         }
-
-        [HttpGet] //api/generos
-        public async Task<ActionResult<List<GeneroDTO>>> Get([FromQuery] PaginacionDTO paginacionDTO)
-        {
-            var queryable = context.Generos.AsQueryable();
-            await HttpContext.InsertarParametrosPaginacionEnCabecera(queryable);
-            var generos = await queryable.OrderBy(x => x.Nom).Paginar(paginacionDTO).ToListAsync();
-            return mapper.Map<List<GeneroDTO>>(generos);
-        }
-
 
         [HttpGet("{Id:int}")] // api/generos/3/felipe
         public async Task<ActionResult<GeneroDTO>> Get(int Id)

@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PeliculasAPI.DTOS;
+using PeliculasAPI.Entidades;
+using PeliculasAPI.Utilidades;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,12 +25,39 @@ namespace PeliculasAPI.Controllers
             this.mapper = mapper;
         }
 
+        [HttpGet]
+        [HttpGet] //api/Cines
+        public async Task<ActionResult<List<CineDTO>>> Get([FromQuery] PaginacionDTO paginacionDTO)
+        {
+            var queryable = context.Cines.AsQueryable();
+            await HttpContext.InsertarParametrosPaginacionEnCabecera(queryable);
+            var cines = await queryable.OrderBy(x => x.Nombre).Paginar(paginacionDTO).ToListAsync();
+            return mapper.Map<List<CineDTO>>(cines);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CineCreacionDTO cineCreacionDTO)
         {
-            var cine = mapper.Map<Cine>(cineCreacionDTO);
+            var cine = mapper.Map<Cines>(cineCreacionDTO);
             context.Add(cine);
             await context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var existe = await context.Cines.AnyAsync(x => x.Id == id);
+
+            if (!existe)
+            {
+                return NotFound();
+            }
+
+            context.Remove(new Cines() { Id = id });
+
+            await context.SaveChangesAsync();
+
             return NoContent();
         }
     }

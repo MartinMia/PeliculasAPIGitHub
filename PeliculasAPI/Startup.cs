@@ -40,21 +40,41 @@ namespace PeliculasAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+
             services.AddResponseCaching();
+
             services.AddScoped<IRepositorio, RepositorioEnMemoria>();
+
             services.AddScoped<WeatherForecastController>();
+
             services.AddTransient<MiFiltroDeAccion>();
+
             services.AddTransient<IAlmacenadorArchivos, AlmacenadorArchivosLocal>();
+
             services.AddHttpContextAccessor();
+
             services.AddControllers(options =>
             {
                 options.Filters.Add(typeof(FiltroDeExcepciones));
                 options.Filters.Add(typeof(ParsearBadRequest));
             }).ConfigureApiBehaviorOptions(BehaviorBadRequest.Parsear);
 
-            services.AddAutoMapper(typeof(Startup));    
+            services.AddAutoMapper(typeof(Startup));
+
+            services.AddSingleton(provider =>
+            {
+                new MapperConfiguration(config =>
+               {
+                   var geometryFactory = provider.GetRequiredService<GeometryFactory>(());
+                   config.AddProfile(new AutoMapperProfiles(geometryFactory));
+               });
+            });
+
+            services.AddSingleton<GeometryFactory>(NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326));
+
             services.AddDbContext<ApplicationDbContext>(options =>
-           options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+           options.UseSqlServer(Configuration.GetConnectionString("defaultConnection"),
+           sqlServer => sqlServer.UseNetTopologySuite()));
 
             services.AddCors(options =>
             {

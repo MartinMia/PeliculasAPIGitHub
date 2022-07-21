@@ -16,5 +16,8 @@ namespace PeliculasAPI
 
         public DbSet<Genero> Generos { get; set; }
         public DbSet<Actor> Actores { get; set; }
+
+        public DbSet<Cines> Cines { get; set; }
+        //Me da error al querer crear la tabla
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PeliculasAPI.Entidades
 {
-    public class Genero : IValidatableObject
+    public class Genero
     {
         public int Id { get; set; }
 
@@ -16,18 +16,6 @@ namespace PeliculasAPI.Entidades
         [PrimeraLetraMayuscula]
         public string Nom { get; set; }
 
-          public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            if (!string.IsNullOrEmpty(Nom))
-            {
-                var primeraLetra = Nom[0].ToString();
-
-                if (primeraLetra != primeraLetra.ToUpper())
-                {
-                    yield return new ValidationResult("La primera letra debe ser mayúscula",
-                        new string[] { nameof(Nom) });
-                }
-            }
-        }
+        public List<PeliculasGeneros> PeliculasGeneros { get; set; }
     }
 }

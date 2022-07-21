@@ -10,7 +10,7 @@ namespace PeliculasAPI.Entidades
     {
         public int Id { get; set; }
         [Required]
-        [StringLength(maximumLength: 20)]
+        [StringLength(maximumLength: 300)]
         public string Titulo { get; set; }
         public string Resumen { get; set; }
         public string Trailer { get; set; }
@@ -19,9 +19,9 @@ namespace PeliculasAPI.Entidades
         public DateTime Fecha { get; set; }
         public string Poster { get; set; }
 
-       // public List<PeliculasActores> PeliculasActores { get; set; }
-       // public List<PeliculasGeneros> PeliculasGeneros{ get; set; }
-        //public List<PeliculasEnCines> PeliculasEnCines { get; set; }
+        public List<PeliculasActores> PeliculasActores { get; set; }
+        public List<PeliculasGeneros> PeliculasGeneros{ get; set; }
+        public List<PeliculasCines> PeliculasCines { get; set; }
 
 
     }

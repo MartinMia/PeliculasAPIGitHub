@@ -18,5 +18,7 @@ namespace PeliculasAPI.Entidades
         public DateTime FechaNac { get; set; }
 
         public string Foto { get; set; }
+
+        public List<PeliculasActores> PeliculasActores { get; set; }
     }
 }

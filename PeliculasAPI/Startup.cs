@@ -62,13 +62,12 @@ namespace PeliculasAPI
             services.AddAutoMapper(typeof(Startup));
 
             services.AddSingleton(provider =>
-            {
                 new MapperConfiguration(config =>
-               {
-                   var geometryFactory = provider.GetRequiredService<GeometryFactory>(());
-                   config.AddProfile(new AutoMapperProfiles(geometryFactory));
-               });
-            });
+                {
+                    var geometryFactory = provider.GetRequiredService<GeometryFactory>();
+                    config.AddProfile(new AutoMapperProfiles(geometryFactory));
+                }).CreateMapper());
+
 
             services.AddSingleton<GeometryFactory>(NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326));
 

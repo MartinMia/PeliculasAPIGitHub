@@ -37,10 +37,10 @@ namespace PeliculasAPI.Utilidades
             return Task.CompletedTask;
         }
 
-        public Task<string> EditarArchivo(string contenedor, IFormFile archivo, string ruta)
+        public async Task<string> EditarArchivo(string contenedor, IFormFile archivo, string ruta)
         {
-            await EditarArchivo(ruta, contenedor);
-            return await GuardarArchivo(contendor, archivo); 
+            await BorrarArchivo(ruta, contenedor);
+            return await GuardarArchivo(contenedor, archivo); 
         }
 
         public async Task<string> GuardarArchivo(string contenedor, IFormFile archivo)

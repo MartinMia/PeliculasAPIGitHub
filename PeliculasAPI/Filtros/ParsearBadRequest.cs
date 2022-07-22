@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System;
@@ -29,6 +30,15 @@ namespace PeliculasAPI.Filtros
                     respuesta.Add(resultadoActual.Value.ToString());
 
                 }
+
+                else if (resultadoActual.Value is IEnumerable<IdentityError> errores)
+                {
+                    foreach (var error in errores)
+                    {
+                        respuesta.Add(error.Description);
+                    }
+                }
+
                 else
                 {
                     foreach (var llave in context.ModelState.Keys)

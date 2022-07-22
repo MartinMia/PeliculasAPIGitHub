@@ -40,6 +40,8 @@ namespace PeliculasAPI
         public DbSet<PeliculasGeneros> PeliculasGeneros { get; set; }
         public DbSet<PeliculasCines> PeliculasCines { get; set; }
 
+        public DbSet<Rating> Ratings { get; set; }
+
         //Me da error al crear las tablas
     }
 }

@@ -21,5 +21,9 @@ namespace PeliculasAPI.DTOS
         public List<PeliculasActorDTO> Actores { get; set; }
 
         public List<CineDTO> Cines { get; set; }
+
+        public int VotoUsuario { get; set; }
+
+        public double PromedioVoto { get; set; }
     }
 }

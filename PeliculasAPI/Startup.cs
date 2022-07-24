@@ -108,6 +108,11 @@ namespace PeliculasAPI
 
                 });
 
+            services.AddAuthorization(opciones => 
+            {
+                opciones.AddPolicy("EsAdmin", policy => policy.RequireClaim("rol", "admin"));
+            });
+
             services.AddControllers(options =>
             {
                 options.Filters.Add(typeof(FiltroDeExcepciones));

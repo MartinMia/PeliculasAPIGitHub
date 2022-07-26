@@ -42,7 +42,7 @@ namespace PeliculasAPI.Controllers
         }
 
         [HttpGet("listadoUsuarios")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
         public async Task<ActionResult<List<UsuarioDTO>>> ListadoUsuarios([FromQuery] PaginacionDTO paginacionDTO)
         {
             var queryable = context.Users.AsQueryable();
@@ -56,7 +56,7 @@ namespace PeliculasAPI.Controllers
         }
 
         [HttpPost("HacerAdmin")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
         public async Task<ActionResult> HacerAdmin(string usuarioId)
         {
             var usuario = await userManager.FindByIdAsync(usuarioId);
@@ -67,7 +67,7 @@ namespace PeliculasAPI.Controllers
         }
 
         [HttpPost("RemoverAdmin")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
         public async Task<ActionResult> RemoverAdmin([FromBody] string usuarioId)
         {
             var usuario = await userManager.FindByIdAsync(usuarioId);

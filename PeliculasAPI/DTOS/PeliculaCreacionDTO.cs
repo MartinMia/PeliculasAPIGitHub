@@ -13,7 +13,7 @@ namespace PeliculasAPI.DTOS
     {
         [Required]
         [StringLength(maximumLength: 20)]
-        public string Titulo { get; set; }
+        public String Titulo { get; set; }
         public string Resumen { get; set; }
         public string Trailer { get; set; }
         public bool EnCines { get; set; }

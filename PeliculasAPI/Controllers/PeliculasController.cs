@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+//using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PeliculasAPI.DTOS;
@@ -22,18 +22,18 @@ namespace PeliculasAPI.Controllers
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
-        private readonly UserManager<IdentityUser> userManager;
+        //private readonly UserManager<IdentityUser> userManager;
         private readonly IAlmacenadorArchivos almacenadorArchivos;
         private readonly string contenedor = "peliculas";
 
         public PeliculasController(ApplicationDbContext context,
             IMapper mapper,
-            UserManager<IdentityUser> userManager,
+            //UserManager<IdentityUser> userManager,
             IAlmacenadorArchivos almacenadorArchivos)
         {
             this.context = context;
             this.mapper = mapper;
-            this.userManager = userManager;
+            //this.userManager = userManager;
             this.almacenadorArchivos = almacenadorArchivos;
         }
 
@@ -111,7 +111,7 @@ namespace PeliculasAPI.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Put(int id,[FromForm] PeliculaCreacionDTO peliculaCreacionDTO)
+        public async Task<ActionResult> Put(int id,[FromBody] PeliculaCreacionDTO peliculaCreacionDTO)
         {
             var pelicula = await context.Peliculas
                 .Include(x => x.PeliculasActores)
@@ -164,17 +164,17 @@ namespace PeliculasAPI.Controllers
                 {
                     var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email").Value;
 
-                    var usuario = await userManager.FindByEmailAsync(email);
+                    //var usuario = await userManager.FindByEmailAsync(email);
 
-                    var usuarioId = usuario.Id;
+                    //var usuarioId = usuario.Id;
 
-                    var ratingDB = await context.Ratings
-                        .FirstOrDefaultAsync(x => x.UsuarioId == usuarioId && x.PeliculaId == Id);
+                    //var ratingDB = await context.Ratings
+                    //    .FirstOrDefaultAsync(x => x.UsuarioId == usuarioId && x.PeliculaId == Id);
 
-                    if (ratingDB != null)
-                    {
-                        votoUsuario = ratingDB.Puntuacion;
-                    }
+                    //if (ratingDB != null)
+                    //{
+                    //    votoUsuario = ratingDB.Puntuacion;
+                    //}
 
                 }
             }
@@ -229,16 +229,16 @@ namespace PeliculasAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromForm] PeliculaCreacionDTO peliculaCreacionDTO)
+        public async Task<ActionResult> Post([FromBody] PeliculaCreacionDTO peliculaCreacionDTO)
         {
             var pelicula = mapper.Map<Pelicula>(peliculaCreacionDTO);
 
-            if (peliculaCreacionDTO.Poster != null)
-            {
-                pelicula.Poster = await almacenadorArchivos.EditarArchivo(contenedor, peliculaCreacionDTO.Poster, pelicula.Poster);
-            }
+            //if (peliculaCreacionDTO.Poster != null)
+            //{
+            //    pelicula.Poster = await almacenadorArchivos.EditarArchivo(contenedor, peliculaCreacionDTO.Poster, pelicula.Poster);
+            //}
 
-            EscribirOrdenActores(pelicula);
+            //EscribirOrdenActores(pelicula);
 
             context.Add(pelicula);
             await context.SaveChangesAsync();

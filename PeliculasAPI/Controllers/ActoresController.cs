@@ -72,7 +72,7 @@ namespace PeliculasAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromForm] ActorCreacionDTO actorCreacionDTO)
+        public async Task<ActionResult> Post([FromBody] ActorCreacionDTO actorCreacionDTO)
         {
             var actor = mapper.Map<Actor>(actorCreacionDTO);
 
@@ -87,7 +87,7 @@ namespace PeliculasAPI.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Put(int id, [FromForm] ActorCreacionDTO actorCreacionDTO)
+        public async Task<ActionResult> Put(int id, [FromBody] ActorCreacionDTO actorCreacionDTO)
         {
             var actor = await context.Actores.FirstOrDefaultAsync(x => x.Id == id);
 

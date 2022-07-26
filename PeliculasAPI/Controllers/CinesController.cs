@@ -28,7 +28,6 @@ namespace PeliculasAPI.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet]
         [HttpGet] //api/Cines
         public async Task<ActionResult<List<CineDTO>>> Get([FromQuery] PaginacionDTO paginacionDTO)
         {

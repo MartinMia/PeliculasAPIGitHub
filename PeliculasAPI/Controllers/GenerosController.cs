@@ -1,4 +1,4 @@
-﻿ using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -93,7 +93,7 @@ namespace PeliculasAPI.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id:int}")]   
+        [HttpPut("{Id:int}")]   
         public async Task <ActionResult> Put(int Id, [FromBody] GeneroCreacionDTO generoCreacionDTO)
         {
             var genero = await context.Generos.FirstOrDefaultAsync(x => x.Id == Id);
@@ -110,7 +110,7 @@ namespace PeliculasAPI.Controllers
 
         }
 
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{Id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
             var existe = await context.Generos.AnyAsync(x => x.Id == id);

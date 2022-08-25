@@ -12,9 +12,9 @@ namespace PeliculasAPI.Entidades
         public int Id { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es requerido")]
-        [StringLength(maximumLength: 10)]
+        [StringLength(maximumLength: 50)]
         [PrimeraLetraMayuscula]
-        public string Nom { get; set; }
+        public string Nombre { get; set; }
 
         public List<PeliculasGeneros> PeliculasGeneros { get; set; }
     }

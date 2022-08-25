@@ -9,7 +9,7 @@ namespace PeliculasAPI.DTOS
     {
         public int Id { get; set; }
 
-        public String Nom { get; set; }
+        public string Nombre { get; set; }
 
 
     }

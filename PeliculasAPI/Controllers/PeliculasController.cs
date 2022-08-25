@@ -223,26 +223,26 @@ namespace PeliculasAPI.Controllers
 
             await HttpContext.InsertarParametrosPaginacionEnCabecera(peliculasQueryable);
 
-            var peliculas = await peliculasQueryable.Paginar(peliculasFiltrarDTO.paginacionDTO).ToListAsync();
+            var peliculas = await peliculasQueryable.Paginar(peliculasFiltrarDTO.PaginacionDTO).ToListAsync();
 
             return mapper.Map<List<PeliculaDTO>>(peliculas);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] PeliculaCreacionDTO peliculaCreacionDTO)
+        public async Task<ActionResult<int>> Post([FromBody] PeliculaCreacionDTO peliculaCreacionDTO)
         {
             var pelicula = mapper.Map<Pelicula>(peliculaCreacionDTO);
 
-            //if (peliculaCreacionDTO.Poster != null)
-            //{
-            //    pelicula.Poster = await almacenadorArchivos.EditarArchivo(contenedor, peliculaCreacionDTO.Poster, pelicula.Poster);
-            //}
+            if (peliculaCreacionDTO.Poster != null)
+            {
+                pelicula.Poster = await almacenadorArchivos.EditarArchivo(contenedor, peliculaCreacionDTO.Poster, pelicula.Poster);
+            }
 
-            //EscribirOrdenActores(pelicula);
+            EscribirOrdenActores(pelicula);
 
             context.Add(pelicula);
             await context.SaveChangesAsync();
-            return NoContent();
+            return pelicula.Id;
         }
 
         [HttpGet("PostGet")]

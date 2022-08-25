@@ -228,7 +228,7 @@ namespace PeliculasAPI.Migrations
                     b.Property<string>("Biografia")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("FechaNac")
+                    b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Foto")
@@ -271,7 +271,7 @@ namespace PeliculasAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Nom")
+                    b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");

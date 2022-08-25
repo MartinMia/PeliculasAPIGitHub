@@ -97,7 +97,7 @@ namespace PeliculasAPI.Utilidades
             {
                 foreach (var genero in pelicula.PeliculasGeneros)
                 {
-                    resultado.Add(new GeneroDTO() { Id = genero.GeneroId, Nom = genero.Genero.Nom });
+                    resultado.Add(new GeneroDTO() { Id = genero.GeneroId, Nombre = genero.Genero.Nombre });
                 }
             }
 

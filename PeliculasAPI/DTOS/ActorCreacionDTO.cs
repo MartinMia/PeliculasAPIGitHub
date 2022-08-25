@@ -16,7 +16,7 @@ namespace PeliculasAPI.DTOS
 
         public string Biografia { get; set; }
 
-        public DateTime FechaNac { get; set; }
+        public DateTime FechaNacimiento { get; set; }
 
         public IFormFile Foto { get; set; }
     }

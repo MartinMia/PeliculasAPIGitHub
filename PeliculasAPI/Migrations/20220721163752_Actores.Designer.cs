@@ -31,7 +31,7 @@ namespace PeliculasAPI.Migrations
                     b.Property<string>("Biografia")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("FechaNac")
+                    b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Foto")

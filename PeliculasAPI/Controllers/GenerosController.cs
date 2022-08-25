@@ -22,8 +22,7 @@ namespace PeliculasAPI.Controllers
     //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
     public class GenerosController : ControllerBase
     {
-        private readonly IRepositorio repositorio;
-        private readonly WeatherForecastController weatherForecastController;
+        
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
         private readonly ILogger<GenerosController> logger;
@@ -34,8 +33,7 @@ namespace PeliculasAPI.Controllers
             ApplicationDbContext context,
             IMapper mapper)
         {
-            this.repositorio = repositorio;
-            this.weatherForecastController = weatherForecastController;
+            
             this.logger = logger;
             this.context = context;
             this.mapper = mapper;
@@ -47,7 +45,7 @@ namespace PeliculasAPI.Controllers
         {
             var queryable = context.Generos.AsQueryable();
             await HttpContext.InsertarParametrosPaginacionEnCabecera(queryable);
-            var generos = await queryable.OrderBy(x => x.Nom).Paginar(paginacionDTO).ToListAsync();
+            var generos = await queryable.OrderBy(x => x.Nombre).Paginar(paginacionDTO).ToListAsync();
             return mapper.Map<List<GeneroDTO>>(generos);
         }
 
@@ -55,20 +53,11 @@ namespace PeliculasAPI.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<List<GeneroDTO>>> Todos()
         {
-            var generos = await context.Generos.OrderBy(x => x.Nom).ToListAsync();
+            var generos = await context.Generos.OrderBy(x => x.Nombre).ToListAsync();
             return mapper.Map<List<GeneroDTO>>(generos);
         }
 
-        [HttpGet("guid")] // api/generos/guid
-        public ActionResult<Guid> GetGUID()
-        {
-            return Ok(new
-            {
-                GUID_GenerosController = repositorio.ObtenerGuid()
-                //GUID_WeatherForecastController = weatherForecastController.ObtenerGUIDWeatherForecastController()
-            });
-        }
-
+       
         [HttpGet("{Id:int}")] 
         public async Task<ActionResult<GeneroDTO>> Get(int Id)
         {
@@ -85,7 +74,7 @@ namespace PeliculasAPI.Controllers
 
 
         [HttpPost]
-        public async Task <ActionResult> Post([FromBody] GeneroCreacionDTO generoCreacionDTO)
+        public async Task<ActionResult> Post([FromBody] GeneroCreacionDTO generoCreacionDTO)
         {
             var genero = mapper.Map<Genero>(generoCreacionDTO);
             context.Add(genero);

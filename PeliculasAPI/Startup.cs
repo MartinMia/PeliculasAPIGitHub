@@ -61,7 +61,7 @@ namespace PeliculasAPI
             services.AddControllers(options =>
             {
                 options.Filters.Add(typeof(FiltroDeExcepciones));
-                options.Filters.Add(typeof(ParsearBadRequest));
+                options.Filters.Add(typeof(ParsearBadRequests));
             }).ConfigureApiBehaviorOptions(BehaviorBadRequest.Parsear);
 
             services.AddAutoMapper(typeof(Startup));

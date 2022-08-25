@@ -13,7 +13,7 @@ namespace PeliculasAPI.Migrations
                 newName: "Id");
 
             migrationBuilder.AlterColumn<string>(
-                name: "Nom",
+                name: "Nombre",
                 table: "Generos",
                 type: "nvarchar(10)",
                 maxLength: 10,
@@ -30,7 +30,7 @@ namespace PeliculasAPI.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Biografia = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FechaNac = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FechaNacimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Foto = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -50,7 +50,7 @@ namespace PeliculasAPI.Migrations
                 newName: "id");
 
             migrationBuilder.AlterColumn<string>(
-                name: "Nom",
+                name: "Nombre",
                 table: "Generos",
                 type: "nvarchar(50)",
                 maxLength: 50,

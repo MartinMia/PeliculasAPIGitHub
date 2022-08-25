@@ -9,7 +9,7 @@ namespace PeliculasAPI.DTOS
     {
         public int Pagina { get; set; }
         public int RecordsPorPagina { get; set; }
-        public PaginacionDTO paginacionDTO { get 
+        public PaginacionDTO PaginacionDTO { get 
             {
                 return new PaginacionDTO()
                 {

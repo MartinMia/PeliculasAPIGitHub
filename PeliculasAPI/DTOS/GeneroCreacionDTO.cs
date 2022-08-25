@@ -10,8 +10,8 @@ namespace PeliculasAPI.DTOS
     public class GeneroCreacionDTO
     {
         [Required(ErrorMessage = "El campo {0} es requerido")]
-        [StringLength(maximumLength: 10)]
+        [StringLength(maximumLength: 50)]
         [PrimeraLetraMayuscula]
-        public String Nom { get; set; }
+        public string Nombre { get; set; }
     }
 }
